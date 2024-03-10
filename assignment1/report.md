@@ -10,7 +10,7 @@ The first assignment of *CS 324 Deep Learning* includes two major parts.
 
 The part I is about the perceptron, which is a type of artiﬁcial neuron or the simplest form of a neural network, serving as the foundational building block for more complex neural networks. The assignment requires implementing a simple perception which is able to be trained and predict on given inputs. 
 
-The part II is about the multi-layer perceptron, which 
+The part II and part III are about the multi-layer perceptron, which 
 
 ## Motivation
 
@@ -143,3 +143,6 @@ The forward process performs the formula.
 The backward process takes in `dout` as the gradients of the previous module, and calculate gradients of loss.
 
 ###### Class ReLU:
+
+The rectified linear unit (ReLU) unit activation function introduces the property of nonlinearity to a deep learning model and solves the vanishing gradients issue.
+

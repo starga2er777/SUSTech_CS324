@@ -16,21 +16,18 @@ class MLP(object):
         """
         # Hint: You can use a loop to create the necessary number of layers and add them to a list.
         # Remember to initialize the weights and biases in each layer.
-        self.n_hidden = n_hidden
-        self.n_classes = n_classes
-
         self.layers = []
         # add hidden layers
         for num_nodes in n_hidden:
-            linear_layer = Linear(n_inputs, num_nodes)
-            relu_layer = ReLU()
-            self.layers.append(linear_layer)
-            self.layers.append(relu_layer)
+            self.layers.append(Linear(n_inputs, num_nodes))
+            self.layers.append(ReLU())
             n_inputs = num_nodes
-
         # add output layers
-        softmax_layer = SoftMax()
-        self.layers.append(softmax_layer)
+        self.layers.append(Linear(n_inputs, n_classes))
+        # add softmax layer
+        self.layers.append(SoftMax())
+        self.loss_fn = CrossEntropy()
+
         
     def forward(self, x):
         """
@@ -54,7 +51,7 @@ class MLP(object):
 
         for layer in self.layers:
             out = layer.forward(out)
-        
+
         return out
 
     def backward(self, dout):
@@ -72,5 +69,7 @@ class MLP(object):
         # Hint: You will need to update 'dout' to be the gradient of the loss with respect to the input of each layer.
         
         # No need to return anything since the gradients are stored in the layers.
+
         for layer in reversed(self.layers):
             dout = layer.backward(dout)
+
