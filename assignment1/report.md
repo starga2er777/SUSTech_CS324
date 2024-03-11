@@ -206,7 +206,7 @@ With the increase of epoch number, the accuracy demonstrates a rapid initial ris
 
 However, the final accuracy was only **0.85** and the loss was 0.26 which wasn't perfect. The deficiency results from the insufficient number of epochs, or the learning rate is not large enough, resulting in the MLP loss function stopping training before convergence.
 
-By slightly increasing the learning rate to 0.3, the MLP achieved better result:
+By slightly increasing the learning rate to 0.1, the MLP achieved better result:
 
 ![13](pics/13.png)
 
