@@ -25,7 +25,7 @@ def accuracy(predictions, targets):
     
     return acc
 
-def train(x_train, y_train, x_test, y_test, dnn_hidden_units, learning_rate, max_steps, eval_freq):
+def train(x_train, y_train, x_test, y_test, dnn_hidden_units, learning_rate, max_steps, eval_freq, batch_size):
     """
     Performs training and evaluation of MLP model.
     
@@ -44,38 +44,77 @@ def train(x_train, y_train, x_test, y_test, dnn_hidden_units, learning_rate, max
 
     mlp = MLP(x_train.shape[1], dnn_hidden_units, y_train.shape[1])
 
+    train_acc = []
+    test_acc = []
+    train_loss = []
+    test_loss = []
+
     for step in range(max_steps):
+
         # TODO: Implement the training loop
         # 1. Forward pass
         # 2. Compute loss
         # 3. Backward pass (compute gradients)
         # 4. Update weights
 
-        # forward pass
-        pred = mlp.forward(x_train)
+        acc = 0
+        loss = 0
 
-        # compute loss
-        loss = mlp.loss_fn.forward(pred, y_train)
+        for i in range(0, len(x_train), batch_size):
+            x_batch = x_train[i:i + batch_size]
+            y_batch = y_train[i:i + batch_size]
 
-        # compute gradients
-        dout = mlp.loss_fn.backward(pred, y_train)
+            # Forward pass
+            pred = mlp.forward(x_batch)
 
-        # backward pass
-        mlp.backward(dout)
+            # Compute loss
+            cur_loss = mlp.loss_fn.forward(pred, y_batch)
+            loss += cur_loss
+
+            # Compute accuracy
+            batch_acc = accuracy(pred, y_batch)
+            acc += batch_acc
+
+            # Compute gradients
+            dout = mlp.loss_fn.backward(pred, y_batch)
+
+            # Backward pass
+            mlp.backward(dout)
+
+            # Update weights
+            for layer in mlp.layers:
+                if hasattr(layer, 'params'):
+                    layer.params['weight'] -= learning_rate * layer.grads['weight'] / len(x_batch)
+                    layer.params['bias'] -= learning_rate * layer.grads['bias'] / len(x_batch)
+
+        train_acc.append(acc / len(x_train) * batch_size)
+        train_loss.append(loss / len(x_train) * batch_size)
+
+
+        # perform test
+
+        test_pred = mlp.forward(x_test)
+        loss = mlp.loss_fn.forward(test_pred, y_test)
+
+        test_acc.append(accuracy(test_pred, y_test))
+        test_loss.append(loss)
+
 
         # update weights
         for layer in mlp.layers:
-            if hasattr(layer, 'params'):  # Check if the layer has parameters
-                layer.params['weight'] -= learning_rate * layer.grads['weight']
-                layer.params['bias'] -= learning_rate * layer.grads['bias']
+            if hasattr(layer, 'params'):
+                # here the learning rate is too big
+                layer.params['weight'] -= learning_rate * layer.grads['weight'] / len(x_train)
+                layer.params['bias'] -= learning_rate * layer.grads['bias'] / len(x_train)
 
         if step % eval_freq == 0 or step == max_steps - 1:
             # TODO: Evaluate the model on the test set
             # 1. Forward pass on the test set
             # 2. Compute loss and accuracy
-            print(f"Step: {step}, Loss: {loss}, Accuracy: {accuracy(mlp.forward(x_test), y_test)}")
+            print(f"Step: {step}, Loss: {train_loss[-1]}, Accuracy: {test_acc[-1]}")
     
     print("Training complete!")
+    return train_acc, train_loss, test_acc, test_loss
 
 
 

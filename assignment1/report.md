@@ -14,7 +14,7 @@ The part II and part III are about the multi-layer perceptron, which
 
 ## Motivation
 
-The motivation behind this assignment lies in the exploration of the basic principles of neural networks and their applications. By understanding the perceptron, we gain insight into how neural networks operate at a fundamental level. This knowledge serves as a stepping stone for tackling more complex neural network architectures and tasks.
+The motivation behind this assignment lies in the exploration of the basic principles of neural networks. By understanding the perceptron, we gain insight into how neural networks operate at a fundamental level. This knowledge serves as a stepping stone for solving more complex neural network tasks.
 
 
 
@@ -132,17 +132,132 @@ In part II, a multi-layer perceptron is implemented under the template code, and
 
 ###### Class Linear:
 
-The linear layer performs affine transformation with formula:  $\text{output} = \text{weight} * x + \text{bias}$
+The linear layer performs affine transformation with formula:  $\text{output} = x *\text{weight} + \text{bias}$.
 
-* The weights are initialized to small random values drawn from a normal distribution.
-* The bias term is initialized with 0s.
-* The gradient is initialized with 0.
+* The weights are initialized with size = in_features * out_features, and value = random small values to disrupt symmetry.
 
-The forward process performs the formula.
+* The forward process performs the transformation, generating an output.
 
-The backward process takes in `dout` as the gradients of the previous module, and calculate gradients of loss.
+* The backward process takes in `dout` as the gradients of the previous module. It then calculate gradients of loss and update gradients for weight and bias.
 
 ###### Class ReLU:
 
-The rectified linear unit (ReLU) unit activation function introduces the property of nonlinearity to a deep learning model and solves the vanishing gradients issue.
+The rectified linear unit (ReLU) unit activation function introduces the property of nonlinearity to a deep learning model and solves the vanishing gradients issue. With ReLU layers, the flow of gradients backward during backpropagation becomes easier, and the training becomes more effective.
 
+* The forward process performs $x = \max(x, 0)$, it it has a constant gradient of 1 for all the positive inputs.
+
+* The backward process returns an array with the same numbers with `dout` where $x > 0$, otherwise $0$.
+
+###### Class SoftMax:
+
+The SoftMax Layer applies the SoftMax function to the input to obtain output probabilities.
+
+* The forward process performs $\text{softmax}(x_i) = \exp(x_i) / \sum(\exp(x_j))$ for all $j$. It converts the output of the output layer into probabilities, representing how likely it is that each input belongs to each label.
+
+* The backward process does nothing.
+
+###### Class CrossEntropy:
+
+The Cross Entropy works as a loss function.
+
+* The forward process calculates the cross entropy loss, measures the performance of a classification model whose output is a probability value between 0 and 1.
+* The backward process calculates the gradient between prediction and true label.
+
+##### Dataset
+
+The generated dataset of default parameters of 1000 points is shown below:
+
+![10](pics/10.png)
+
+The labels are converted with one-hot encoding.
+
+##### Model Structure
+
+The model contains several hidden layers, each unit of which is composed of a linear layer and a ReLU layer, and the model also contains an output layer and a SoftMax layer.
+
+In my implementation, the layers were sequentially appended to a **layer list**, enabling easy execution of the forward and backward pass by invoking the forward() and backward() methods in a loop.
+
+##### Model Training
+
+To train the MLP, I completed the train script `train_mlp_numpy.py`, and the train process can be concluded by the following process:
+
+* Load dataset, randomly split into training set (800 samples) and test set (200 samples).
+* Perform forward pass to get a prediction of current layers.
+* Calculate loss with the CrossEntropy module.
+* Calculate accuracy and store to output.
+* Perform backward pass to calculate gradients of loss.
+* Update models according to the gradients and learning rate.
+
+The model is trained using the default values of the parameters:
+
+| Parameter        | Value |
+| ---------------- | ----- |
+| num_hidden_units | [20]  |
+| learning rate    | 0.01  |
+| epoch            | 1500  |
+
+![11](pics/11.png)
+
+```
+Step: 1499, Loss: 0.23309685011049974, Accuracy: 0.89
+```
+
+With the increase of epoch number, the accuracy demonstrates a rapid initial rise and a slower rise afterwards. The loss goes down smoothly.
+
+However, the final accuracy was only **0.85** and the loss was 0.26 which wasn't perfect. The deficiency results from the insufficient number of epochs, or the learning rate is not large enough, resulting in the MLP loss function stopping training before convergence.
+
+By slightly increasing the learning rate to 0.3, the MLP achieved better result:
+
+![13](pics/13.png)
+
+```
+Step: 1499, Loss: 0.025139461572894466, Accuracy: 1.0
+```
+
+### Part III: Stochastic Gradient Descent
+
+##### Stochastic Gradient Descent
+
+Stochastic gradient descent (SGD), by contrast, calculates the error for each training example within the dataset, meaning it updates the parameters for each training example one by one. Depending on the problem, this can make SGD faster than batch gradient descent. One advantage is the frequent updates allow us to have a pretty detailed rate of improvement.
+
+In order to implement SGD gradient descent, another parameter `batch_size` is added to the train method. In each epoch, `batch_size` number of train samples will be extracted from the train dataset. In this case, if we are using SGD, the `batch_size` will be 1.
+
+The training process took significantly longer time to complete.
+
+After training, we can see the loss function converges quickly:
+
+![15](pics/15.png)
+
+
+
+And the MLP achieved a same accuracy.
+
+```
+Step: 1499, Loss: 0.20971993245122775, Accuracy: 0.89
+```
+
+##### Experiment with batch_size
+
+###### When batch_size = 10
+
+![16](pics/16.png)
+
+```
+Step: 1499, Loss: 0.19799310239054674, Accuracy: 0.89
+```
+
+###### When batch_size = 100
+
+![17](pics/17.png)
+
+```
+Step: 1499, Loss: 0.22883605981843824, Accuracy: 0.895
+```
+
+The above figures and results conclude that with the increase of batch_size, the training process becomes more efficient, and the loss curve descend slower. However, the time cost doesn't come with higher accuracy. 
+
+**Analysis**: 
+
+In SGD, the model parameters are updated after computing the gradient on a single training example. This means that each parameter update is based on a noisy estimate of the true gradient. As a result, the updates can exhibit high variance, causing the training trajectory to be more erratic compared to batch gradient descent. Also, SGD tends to converge faster than batch gradient descent because it updates the parameters more frequently. 
+
+While SGD can be more efficient in terms of convergence speed and generalization, it requires careful tuning of hyperparameters and may exhibit more variability in training dynamics compared to batch gradient descent.
