@@ -79,7 +79,13 @@ Furthermore, it's notable that the fully connected layers in the MLP are densely
 
 ### Part II PyTorch CNN
 
+#### Task 1
 
+According to the lecture slides, the VGG16 network has an architecture of the following picture:
+
+![1](pics/vgg.png)
+
+The implementation of the network can be found in 
 
 
 
