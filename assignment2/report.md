@@ -85,6 +85,10 @@ According to the lecture slides, the reduced version of VGG network has an archi
 
 ![1](pics/vgg.png)
 
+For each layer, it's easy to calculate the size of the features and the channels.
+
+
+
 The implementation of the network can be found in **Part 2/cnn_model.py** and **Part 2/cnn_train.py**.
 
 

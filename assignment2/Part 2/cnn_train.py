@@ -81,6 +81,7 @@ def train(train_loader, test_loader, learning_rate=LEARNING_RATE_DEFAULT, num_ep
 
             optimizer.step()
             
+            # Eval
             if (i + 1) % EVAL_FREQ_DEFAULT == 0:
                 train_loss.append(loss.item())
                 model.eval()
@@ -109,7 +110,7 @@ def train(train_loader, test_loader, learning_rate=LEARNING_RATE_DEFAULT, num_ep
                     _, predicted = torch.max(outputs.data, 1)
                     total += labels.size(0)
                     correct += (predicted == labels).sum().item()
-                    
+
                 test_accuracy = correct / total
                 test_acc.append(test_accuracy)
                 test_loss.append(np.mean(test_losses))
