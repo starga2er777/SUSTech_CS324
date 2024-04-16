@@ -69,9 +69,9 @@ The model is trained using Stochastic Gradient Descent (SGD) optimizer with the 
 - Batch size: 64
 - Number of epochs: 100
 
-During the training process, both training accuracy and loss show a tendency to converge as the number of epochs increases. However, the test accuracy fails to reach an optimal value due to over-fitting.
-
 ![1](pics/4.png)
+
+The training accuracy grows consistently, finally reaching nearly 90%, indicating the model is learning effectively from the training data. However, the testing accuracy plateaus around 50%, which suggests the model is not generalizing well to unseen data. This is a classic sign of over-fitting, where the model learns the training data too well, including noise and details irrelevant for generalization. This divergence between training and testing loss is another indicator that the model’s generalization is poor.
 
 Furthermore, it's notable that the fully connected layers in the MLP are densely connected, implying that every neuron in the output is connected to every input neuron. Conversely, in a convolutional layer, neurons are not densely connected but are linked only to neighboring neurons within the width of the convolutional kernel. Hence, for tasks involving images and a large number of neurons, a convolutional layer is typically more suitable due to its ability to capture spatial hierarchies in the data.
 
@@ -81,14 +81,23 @@ Furthermore, it's notable that the fully connected layers in the MLP are densely
 
 #### Task 1
 
-According to the lecture slides, the VGG16 network has an architecture of the following picture:
+According to the lecture slides, the reduced version of VGG network has an architecture of the following picture:
 
 ![1](pics/vgg.png)
 
-The implementation of the network can be found in 
+The implementation of the network can be found in **Part 2/cnn_model.py** and **Part 2/cnn_train.py**.
+
+
+
+#### Task 2
+
+
 
 
 
 ## Reference
 
 - [Learning Multiple Layers of Features from Tiny Images](https://www.cs.toronto.edu/~kriz/learning-features-2009-TR.pdf), Alex Krizhevsky, 2009.
+
+* [**CNN Explainer: Learning Convolutional Neural Networks with Interactive Visualization**](https://arxiv.org/abs/2004.15004). Wang, Zijie J., Robert Turko, Omar Shaikh, Haekyu Park, Nilaksh Das, Fred Hohman, Minsuk Kahng, and Duen Horng Chau. *IEEE Transactions on Visualization and Computer Graphics (TVCG), 2020.*
+* https://geeksforgeeks.org/adam-optimizer/
