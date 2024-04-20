@@ -13,7 +13,7 @@ class PalindromeDataset(data.Dataset):
     def __init__(self, input_length, total_len, one_hot=False):
         """
         Args:
-            seq_length: length of the sequence(both input and target)
+            input_length: length of the sequence(both input and target)
             total_len: total number of samples in the dataset
             one_hot: whether to use one-hot encoding or not
         """

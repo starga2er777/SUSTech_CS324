@@ -1,5 +1,5 @@
 import torch
-
+import numpy as np
 
 class AverageMeter(object):
     def __init__(self, name, fmt=':f'):
@@ -26,4 +26,7 @@ class AverageMeter(object):
 
 @torch.no_grad()
 def accuracy(output, target):
-    # Implementation here ...
+    pred = output.argmax(dim=1, keepdim=True)
+    correct = pred.eq(target.view_as(pred)).sum().item()
+    total = target.size(0)
+    return correct / total
