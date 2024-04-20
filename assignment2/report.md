@@ -87,7 +87,22 @@ According to the lecture slides, the reduced version of VGG network has an archi
 
 For each layer, it's easy to calculate the size of the features and the channels.
 
-
+| Layer No. | Output Size     |
+| --------- | --------------- |
+| 1         | 32x32x64        |
+| 2         | 16x16x64        |
+| 3         | 16x16x128       |
+| 4         | 8x8x128         |
+| 5         | 8x8x256         |
+| 6         | 8x8x256         |
+| 7         | 4x4x256         |
+| 8         | 4x4x512         |
+| 9         | 4x4x512         |
+| 10        | 2x2x512         |
+| 11        | 2x2x512         |
+| 12        | 2x2x512         |
+| 13        | 512 (flattened) |
+| 14        | 10              |
 
 The implementation of the network can be found in **Part 2/cnn_model.py** and **Part 2/cnn_train.py**.
 
@@ -95,9 +110,31 @@ The implementation of the network can be found in **Part 2/cnn_model.py** and **
 
 #### Task 2
 
+In the training process, CUDA is introduced to accelerate the process with the help of GPU.
 
+The model utilizes the Adam optimizer for training, which combines the features of momentum optimization and adaptive learning rates. Adam optimizes the model's parameters by maintaining two dynamic variables: the first moment estimate, which represents the mean of the gradients, and the second moment estimate, which indicates the variance of the gradients. By leveraging historical gradient information, Adam adjusts the learning rate for each parameter accordingly, facilitating efficient and effective model training.
 
+The model employs Mini-Batch gradient descent for optimization, wherein the training dataset is divided into batches. After the forward propagation of each batch, the gradients are computed and the model parameters are updated. This approach enables the model to iteratively learn from different subsets of the training data, enhancing its ability to generalize to unseen examples.
 
+In Task 2, my model is trained with the default parameters:
+
+| Batch Size | Epoch Number | Learning Rate | Evaluate Frequency | Optimizer |
+| ---------- | ------------ | ------------- | ------------------ | --------- |
+| 32         | 5000         | 0.0001        | 500                | Adam      |
+
+![cnn](pics/cnn.png)
+
+From the accuracy graph, we can observe that the training accuracy quickly reaches near-perfect levels within first 1000 epochs, indicating that the model fits the training data very well. However, the testing accuracy does not show a similar improvement. This suggests that the model might be over-fitting the training data.
+
+The loss graph shows that as the training loss drops significantly close to zero, yet the testing loss increases after a sharp decline. The model learns to predict the training data with high accuracy, but its predictions for the test data become less reliable over time.
+
+In summary, while the model has learned the training set effectively, its ability to generalize to new data is limited, as evidenced by the stagnation of test accuracy and the increase in test loss. To address this, regularization techniques, more training data, or a more generalizable model architecture could be considered.
+
+In order to obtain better result, the model is trained with following parameters:
+
+| Batch Size | Epoch Number | Learning Rate | Evaluate Frequency | Optimizer |
+| ---------- | ------------ | ------------- | ------------------ | --------- |
+| 32         | 5000         | 0.0001        | 500                | Adam      |
 
 ## Reference
 
