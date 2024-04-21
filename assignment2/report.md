@@ -85,24 +85,24 @@ According to the lecture slides, the reduced version of VGG network has an archi
 
 ![1](pics/vgg.png)
 
-For each layer, it's easy to calculate the size of the features and the channels.
+For each layer, it's easy to calculate the size of the features and the channels. (Size = (row, column, channel))
 
-| Layer No. | Output Size     |
-| --------- | --------------- |
-| 1         | 32x32x64        |
-| 2         | 16x16x64        |
-| 3         | 16x16x128       |
-| 4         | 8x8x128         |
-| 5         | 8x8x256         |
-| 6         | 8x8x256         |
-| 7         | 4x4x256         |
-| 8         | 4x4x512         |
-| 9         | 4x4x512         |
-| 10        | 2x2x512         |
-| 11        | 2x2x512         |
-| 12        | 2x2x512         |
-| 13        | 512 (flattened) |
-| 14        | 10              |
+| Layer No. | Input Size | Output Size         |
+| --------- | ---------- | ------------------- |
+| 1         | 32x32x3    | 32x32x64            |
+| 2         | 32x32x64   | 16x16x64            |
+| 3         | 16x16x64   | 16x16x128           |
+| 4         | 16x16x128  | 8x8x128             |
+| 5         | 8x8x256    | 8x8x256             |
+| 6         | 8x8x256    | 8x8x256             |
+| 7         | 8x8x256    | 4x4x256             |
+| 8         | 4x4x256    | 4x4x512             |
+| 9         | 4x4x512    | 4x4x512             |
+| 10        | 4x4x512    | 2x2x512             |
+| 11        | 2x2x512    | 2x2x512             |
+| 12        | 2x2x512    | 2x2x512             |
+| 13        | 2x2x512    | 512x1x1 (flattened) |
+| 14        | 512x1x1    | 10                  |
 
 The implementation of the network can be found in **Part 2/cnn_model.py** and **Part 2/cnn_train.py**.
 
