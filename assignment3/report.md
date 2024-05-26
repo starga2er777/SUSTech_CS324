@@ -48,9 +48,7 @@ In my implementation, the generator and discriminator are designed following the
 
 For each batch, we generate a random noise input for the generator, and test the discriminator with both real images and generated images. After we obtain the loss, we update both models.
 
-The training process shows a 
-
-Finally, the model is saved.
+Finally, the model is saved in `Part 2/mnist_generator.pth`.
 
 #### Task II
 
@@ -69,6 +67,14 @@ When the training process is over, the model generates images that were almost i
 ![186500](pics/186500.png)![187000](pics/187000.png)![187500](pics/187500.png)
 
 #### Task III
+
+First, we creates two random noise vectors, representing the start and end points for interpolation in the latent space. We then generates a series of interpolated noise vectors between the two noise vectors using linear interpolation.
+
+Then, we load the trained generator. Using the generator model, it creates images corresponding to each interpolated noise vector.
+
+![interpolation](pics/interpolation.png)
+
+The generated grid image is a smooth transition of digit images, showing a sequence of digits gradually morphing from one into another. Specifically, in this case, the interpolation starts with a digit "3", smoothly transitions to a digit "8", and then finally to a digit "1". This visual representation demonstrates the generator's ability to create coherent digit images from interpolated noise vectors, effectively capturing the gradual transformation in the latent space.
 
 
 
