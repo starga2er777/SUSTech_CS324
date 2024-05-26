@@ -9,4 +9,4 @@
 #SBATCH --job-name=pytorch
 
 cd /home/wangdx_lab/cse12012524/SUSTech_CS324/assignment3/Part\ 2/
-python my_gan.py
+python test_gan.py

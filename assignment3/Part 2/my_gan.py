@@ -158,4 +158,4 @@ def main():
     torch.save(generator.state_dict(), "mnist_generator.pth")
 
 print(f'Device: {device}')
-main()
+# main()
