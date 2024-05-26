@@ -8,8 +8,6 @@ SID: 12012524
 
 The second assignment of *CS 324 Deep Learning* includes three major parts.
 
-The part I is about getting started with PyTorch. PyTorch is a machine learning library based on the Torch library, used for applications such as computer vision and natural language processing. Through Part I, one can enhance their understanding in using PyTorch to build 
-
 ## Methodology & Result Analysis
 
 ### Part I PyTorch MLP
