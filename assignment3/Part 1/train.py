@@ -12,7 +12,7 @@ from lstm import LSTM
 from utils import AverageMeter, accuracy
 
 # Default params
-INPUT_LENGTH_DEFAULT = 19
+INPUT_LENGTH_DEFAULT = 4
 INPUT_DIM_DEFAULT = 1
 NUM_CLASSES_DEFAULT = 10
 NUM_HIDDEN_DEFAULT = 128

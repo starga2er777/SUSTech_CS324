@@ -15,26 +15,27 @@ class LSTM(nn.Module):
         self.input_dim = input_dim
         self.hidden_dim = hidden_dim
         self.batch_size = batch_size
+        self.output_dim = output_dim
 
         # g_t
         self.Wgx = nn.Linear(input_dim, hidden_dim)
         self.Wgh = nn.Linear(hidden_dim, hidden_dim)
-        self.bg = torch.zeros(batch_size, hidden_dim)
+        self.bg = torch.zeros(batch_size, hidden_dim).to(device)
         # i_t
         self.Wix = nn.Linear(input_dim, hidden_dim)
         self.Wih = nn.Linear(hidden_dim, hidden_dim)
-        self.bi = torch.zeros(batch_size, hidden_dim)
+        self.bi = torch.zeros(batch_size, hidden_dim).to(device)
         # f_t
         self.Wfx = nn.Linear(input_dim, hidden_dim)
         self.Wfh = nn.Linear(hidden_dim, hidden_dim)
-        self.bf = torch.zeros(batch_size, hidden_dim)
+        self.bf = torch.zeros(batch_size, hidden_dim).to(device)
         # o_t
         self.Wox = nn.Linear(input_dim, hidden_dim)
         self.Woh = nn.Linear(hidden_dim, hidden_dim)
-        self.bo = torch.zeros(batch_size, hidden_dim)
+        self.bo = torch.zeros(batch_size, hidden_dim).to(device)
         # p_t
         self.Wph = nn.Linear(hidden_dim, output_dim)
-        self.bp = torch.zeros(batch_size, output_dim)
+        self.bp = torch.zeros(batch_size, output_dim).to(device)
         # activation
         self.tanh = nn.Tanh()
         self.sigmoid = nn.Sigmoid()
@@ -47,6 +48,7 @@ class LSTM(nn.Module):
         # Init hidden states to the vector of all zeros, shape = (batch_size, hidden_dim)
         h = torch.zeros(self.hidden_dim, self.hidden_dim, device=x.device)
         c = torch.zeros(self.hidden_dim, self.hidden_dim, device=x.device)
+        p = torch.zeros(self.batch_size, self.output_dim, device=x.device)
 
         for t in range(x.size(1)):
             x_t = x[:,t,:]

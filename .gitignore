@@ -1,3 +1,4 @@
 assignment2/cifar10/*
+assignment3/Part 2/data/*
+assignment3/Part 2/images/*
 **/__pycache__/
-**/*.pth
