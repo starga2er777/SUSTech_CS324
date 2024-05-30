@@ -62,7 +62,7 @@ In the halfway of training, the generated images appears like a mix of noise and
 
 ![59500](pics/59500.png)![60000](pics/60000.png)![60500](pics/60500.png)
 
-When the training process is over, the model generates images that were almost identical to handwritten numbers (figure shows results of 0, 500, 1000 batches):
+When the training process is over, the model generates images that were almost identical to handwritten numbers (figure shows results of 186500, 187000, 187500 batches):
 
 ![186500](pics/186500.png)![187000](pics/187000.png)![187500](pics/187500.png)
 
