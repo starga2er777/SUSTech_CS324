@@ -32,7 +32,7 @@ T = 5:
 
 T=20:
 
-![t20](/home/jeffery/Desktop/Sustech/DL/Assignment/assignment3/pics/t20.png)
+![t20](pics/t20.png)
 
 The LSTM model performs well on palindromes with different lengths. This is because LSTM networks are specifically designed to handle sequences with long-range dependencies, which is crucial for recognizing palindromic structures. LSTM uses gates (input, forget, and output gates) to control the flow of information and maintain a more constant gradient during backpropagation, preventing the vanishing gradient problem. This allows LSTM models to effectively remember and utilize information from earlier in the sequence, enabling them to identify patterns and dependencies necessary for correctly processing and predicting palindromes regardless of their length. Moreover, the cell state in LSTM provides a persistent memory that can store information over many time steps, which is essential for capturing the symmetry in palindromes.
 
